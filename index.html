@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Secret Santa Lookup</title>
+  <title>Secret Santa</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
@@ -122,7 +122,7 @@
 </head>
 <body>
   <div class="card">
-    <h1>Secret Santa</h1>
+    <h1>🎅 Secret Santa 🎅</h1>
     <p class="subtitle">Enter your name to see who you’re buying for 🎁</p>
 
     <form id="secretSantaForm">
@@ -149,19 +149,19 @@
     // ====== EDIT THIS PART WITH YOUR REAL MAPPING ======
     // Use lowercase keys for easy case-insensitive matching.
     const secretSantaAssignments = {
-    "Sue" : "Hana",
-    "Paul" : "Josephina",
-    "Sarah" : "Isabella",
-    "Matthew" : "Caleb",
-    "Josephina" : "Paul",
-    "Peter" : "Michael",
-    "Alexandra" : "Isaac",
-    "Isabella" : "Sonia",
-    "Michael" : "Alexandra",
-    "Hana" : "Peter",
-    "Isaac" : "Sarah",
-    "Caleb" : "Sue",
-    "Sonia" : "Matthew"
+    "sue" : "Hana",
+    "paul" : "Josephina",
+    "sarah" : "Isabella",
+    "matthew" : "Caleb",
+    "josephina" : "Paul",
+    "peter" : "Michael",
+    "alexandra" : "Isaac",
+    "isabella" : "Sonia",
+    "michael" : "Alexandra",
+    "hana" : "Peter",
+    "isaac" : "Sarah",
+    "caleb" : "Sue",
+    "sonia" : "Matthew"
 
       // Add more: "name_in_lowercase": "Recipient Name",
     };
@@ -176,8 +176,8 @@
         event.preventDefault();
 
         const rawName = nameInput.value.trim();
-        // const key = rawName.toLowerCase();
-        const key = rawName
+        const key = rawName.toLowerCase();
+        // const key = rawName
 
         if (!rawName) {
           showMessage("Please enter your name.", "error");
