@@ -1,42 +1,212 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>My Website</title>
-        <style type="text/css">
-         div {
-           border: 1px solid #000000; 
-         }
-         #container {
-           display: flex;
-           width: 800px;
-           margin-left: auto;
-           margin-right: auto; 
-         }
-         #header {
-           width: 800px;
-           margin-left: auto;
-           margin-right: auto; 
-         }
-         #footer {
-           width: 800px;
-           margin-left: auto;
-           margin-right: auto; 
-         }
-         #sidebar {
-           width: 200px;
-         }
-         #content {
-           width: 600px;
-         }
-        </style>
-        <button onclick="alert('Hello!')">Say Hello</button>
-    </head>
-    <body>
-        <div id="header">Header</div>
-        <div id="container">
-            <div id="sidebar">Sidebar</div>
-            <div id="content">Content</div>
-        </div>
-        <div id="footer">Footer</div>
-    </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Secret Santa Lookup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f5f5f5;
+    }
+
+    .card {
+      background: #ffffff;
+      padding: 2rem 2.5rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      max-width: 420px;
+      width: 100%;
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 0.25rem;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    .subtitle {
+      margin: 0 0 1.5rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 0.7rem 0.9rem;
+      font-size: 1rem;
+      border-radius: 0.75rem;
+      border: 1px solid #ccc;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    input[type="text"]:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    }
+
+    button {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border-radius: 0.75rem;
+      border: none;
+      cursor: pointer;
+      background: #2563eb;
+      color: white;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.1s ease;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+      transform: translateY(-1px);
+    }
+
+    button:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    .message {
+      margin-top: 1.25rem;
+      padding: 0.85rem 1rem;
+      border-radius: 0.75rem;
+      font-size: 0.95rem;
+      display: none;
+    }
+
+    .message.success {
+      background: #ecfdf3;
+      color: #166534;
+      border: 1px solid #22c55e;
+    }
+
+    .message.error {
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #f87171;
+    }
+
+    .small-note {
+      margin-top: 0.75rem;
+      font-size: 0.75rem;
+      color: #888;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Secret Santa</h1>
+    <p class="subtitle">Enter your name to see who you’re buying for 🎁</p>
+
+    <form id="secretSantaForm">
+      <label for="nameInput">Your name</label>
+      <input
+        type="text"
+        id="nameInput"
+        name="name"
+        placeholder="Type your name"
+        autocomplete="off"
+        required
+      />
+      <button type="submit">Reveal my person</button>
+    </form>
+
+    <div id="result" class="message"></div>
+
+<!--     <p class="small-note">
+      Only you should see this screen. Don’t refresh and peek for others 😉
+    </p> -->
+  </div>
+
+  <script>
+    // ====== EDIT THIS PART WITH YOUR REAL MAPPING ======
+    // Use lowercase keys for easy case-insensitive matching.
+    const secretSantaAssignments = {
+    "Sue" : "Hana",
+    "Paul" : "Josephina",
+    "Sarah" : "Isabella",
+    "Matthew" : "Caleb",
+    "Josephina" : "Paul",
+    "Peter" : "Michael",
+    "Alexandra" : "Isaac",
+    "Isabella" : "Sonia",
+    "Michael" : "Alexandra",
+    "Hana" : "Peter",
+    "Isaac" : "Sarah",
+    "Caleb" : "Sue",
+    "Sonia" : "Matthew"
+
+      // Add more: "name_in_lowercase": "Recipient Name",
+    };
+    // ================================================
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("secretSantaForm");
+      const nameInput = document.getElementById("nameInput");
+      const resultBox = document.getElementById("result");
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const rawName = nameInput.value.trim();
+        // const key = rawName.toLowerCase();
+        const key = rawName
+
+        if (!rawName) {
+          showMessage("Please enter your name.", "error");
+          return;
+        }
+
+        const recipient = secretSantaAssignments[key];
+
+        if (!recipient) {
+          showMessage(
+            "That name is not in the Secret Santa list. Please check spelling or ask the organizer.",
+            "error"
+          );
+          return;
+        }
+
+        showMessage(
+          "Hi " + rawName + "! You are the Secret Santa for: " + recipient + " 🎄",
+          "success"
+        );
+      });
+
+      function showMessage(text, type) {
+        resultBox.textContent = text;
+        resultBox.classList.remove("success", "error");
+        resultBox.classList.add(type);
+        resultBox.style.display = "block";
+      }
+    });
+  </script>
+</body>
 </html>
