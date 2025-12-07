@@ -124,15 +124,15 @@
 <body>
   <div class="card">
     <h1>🎅 Secret Santa 🎅</h1>
-    <p class="subtitle">Enter your name to see who you’re buying for 🎁</p>
+    <p class="subtitle">Enter your password to see who you’re buying for 🎁</p>
 
     <form id="secretSantaForm">
-      <label for="nameInput">Your name</label>
+      <label for="passwordInput">Your password</label>
       <input
         type="text"
-        id="nameInput"
-        name="name"
-        placeholder="Type your name"
+        id="passwordInput"
+        name="password"
+        placeholder="Type your password"
         autocomplete="off"
         required
       />
@@ -150,53 +150,72 @@
     // ====== EDIT THIS PART WITH YOUR REAL MAPPING ======
     // Use lowercase keys for easy case-insensitive matching.
     const secretSantaAssignments = {
-    "sue" : "Hana",
-    "paul" : "Josephina",
-    "sarah" : "Isabella",
-    "matthew" : "Caleb",
-    "josephina" : "Paul",
-    "peter" : "Michael",
-    "alexandra" : "Isaac",
-    "isabella" : "Sonia",
-    "michael" : "Alexandra",
-    "hana" : "Peter",
-    "isaac" : "Sarah",
-    "caleb" : "Sue",
-    "sonia" : "Matthew"
+    "Sue" : "Hana",
+    "Paul" : "Josephina",
+    "Sarah" : "Isabella",
+    "Matthew" : "Caleb",
+    "Josephina" : "Paul",
+    "Peter" : "Michael",
+    "Alexandra" : "Isaac",
+    "Isabella" : "Sonia",
+    "Michael" : "Alexandra",
+    "Hana" : "Peter",
+    "Isaac" : "Sarah",
+    "Caleb" : "Sue",
+    "Sonia" : "Matthew"
 
       // Add more: "name_in_lowercase": "Recipient Name",
+    };
+
+    const namePasswordMap = {
+    "tallpark43" : "Sue",
+    "lowcard84" : "Paul",
+    "bestearth44" : "Sarah",
+    "largegrape65" : "Matthew",
+    "crazygiraffe30" : "Josephina",
+    "wildisland99" : "Peter",
+    "wiseworm73" : "Alexandra",
+    "mushywire59" : "Isabella",
+    "tallfrog59" : "Michael",
+    "bumpymist98" : "Hana",
+    "rapidmoney18" : "Isaac",
+    "broadscarf42" : "Caleb",
+    "leannoise27" : "Sonia"
     };
     // ================================================
 
     document.addEventListener("DOMContentLoaded", () => {
       const form = document.getElementById("secretSantaForm");
-      const nameInput = document.getElementById("nameInput");
+      const passwordInput = document.getElementById("passwordInput");
       const resultBox = document.getElementById("result");
 
       form.addEventListener("submit", (event) => {
         event.preventDefault();
 
-        const rawName = nameInput.value.trim();
-        const key = rawName.toLowerCase();
-        // const key = rawName
+        // const rawName = nameInput.value.trim();
+        // const key = rawName.toLowerCase();
 
-        if (!rawName) {
-          showMessage("Please enter your name.", "error");
+        const password = passwordInput.value.trim();
+
+        if (!password) {
+          showMessage("Please enter your password.", "error");
           return;
         }
 
-        const recipient = secretSantaAssignments[key];
 
-        if (!recipient) {
+        const giverName = namePasswordMap[password];
+        const recipient = secretSantaAssignments[giverName];
+
+        if (!giverName) {
           showMessage(
-            "That name is not in the Secret Santa list.",
+            "That password is not in the list.",
             "error"
           );
           return;
         }
 
         showMessage(
-          "Hi " + rawName + "! You are the Secret Santa for: " + recipient + " 🎄",
+          "Hi " + giverName + "! You are the Secret Santa for: " + recipient + " 🎄",
           "success"
         );
       });
